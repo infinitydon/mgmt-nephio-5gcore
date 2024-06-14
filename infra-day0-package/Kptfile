@@ -20,3 +20,26 @@ upstreamLock:
     commit: 6e84c955a6bb0a469f65d60fd5066ee7586d3547
 info:
   description: this package is used to create the EKS terraform FLuxcD GitRepo Resource
+pipeline:
+  mutators:
+  - name: PackageVariant.day0-infra..0
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: GITHUB_ORG
+      put-value: infinitydon
+    selectors:
+    - name: day0-infra
+  - name: PackageVariant.day0-infra..1
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: WORKLOAD_CLUSTER_REGION
+      put-value: us-west-2
+    selectors:
+    - name: day0-infra
+  - name: PackageVariant.day0-infra..2
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: MULTUS_LAMBDA_S3_BUCKET
+      put-value: multus-lambda-us-west-2-oregon-2024
+    selectors:
+    - name: day0-infra
