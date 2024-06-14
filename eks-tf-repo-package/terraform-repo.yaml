@@ -1,0 +1,12 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata: # kpt-merge: flux-system/eks-infra-tf-repo
+  name: eks-infra-tf-repo
+  namespace: flux-system
+  annotations:
+    internal.kpt.dev/upstream-identifier: 'source.toolkit.fluxcd.io|GitRepository|flux-system|eks-infra-tf-repo'
+spec:
+  interval: 30s
+  url: https://github.com/infinitydon/eks-infra-terraform/
+  ref:
+    branch: main
