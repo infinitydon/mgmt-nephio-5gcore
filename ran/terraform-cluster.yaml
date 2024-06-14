@@ -1,7 +1,7 @@
 apiVersion: infra.contrib.fluxcd.io/v1alpha2
 kind: Terraform
 metadata: # kpt-merge: flux-system/example-cluster
-  name: ran-cluster
+  name: example-cluster
   namespace: flux-system
   annotations:
     internal.kpt.dev/upstream-identifier: 'infra.contrib.fluxcd.io|Terraform|flux-system|example-cluster'
@@ -19,14 +19,14 @@ spec:
     namespace: flux-system
   vars:
   - name: region
-    value: us-west-2
+    value: AWS_REGION
   - name: eks_cluster_name
-    value: ran
+    value: EKS_CLUSTER_NAME
   - name: eks_cluster_version
-    value: 1.29
+    value: EKS_VERSION
   - name: node_instance_type
-    value: m5.4xlarge
+    value: INSTANCE_TYPE
   - name: parameter_store_name
-    value: ran-5g
+    value: PARAMETER_STORE_NAME
   writeOutputsToSecret:
-    name: ran-outputs
+    name: example-outputs
