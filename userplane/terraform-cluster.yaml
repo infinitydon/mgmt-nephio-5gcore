@@ -19,14 +19,14 @@ spec:
     namespace: flux-system
   vars:
   - name: region
-    value: AWS_REGION
+    value: us-west-2
   - name: eks_cluster_name
-    value: EKS_CLUSTER_NAME
+    value: userplane
   - name: eks_cluster_version
-    value: EKS_VERSION
+    value: 1.29
   - name: node_instance_type
-    value: INSTANCE_TYPE
+    value: m5.4xlarge
   - name: parameter_store_name
-    value: PARAMETER_STORE_NAME
+    value: user-plane-5g
   writeOutputsToSecret:
     name: userplane-outputs
