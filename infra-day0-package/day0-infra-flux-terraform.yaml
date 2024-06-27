@@ -6,6 +6,7 @@ metadata: # kpt-merge: flux-system/day0-infra
   annotations:
     internal.kpt.dev/upstream-identifier: 'infra.contrib.fluxcd.io|Terraform|flux-system|day0-infra'
 spec:
+  storeReadablePlan: human
   interval: 1m
   approvePlan: auto
   path: ./tgw-vpc-subnet-nat-terraform
