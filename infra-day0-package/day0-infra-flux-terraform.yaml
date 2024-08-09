@@ -17,13 +17,13 @@ spec:
     namespace: flux-system
   vars:
   - name: github_org
-    value: GITHUB_ORG # kpt-set: ${github-org}
+    value: infinitydon # kpt-set: ${github-org}
   - name: workload_cluster_region
-    value: WORKLOAD_CLUSTER_REGION # kpt-set: ${workload-cluster-region}
+    value: us-west-2 # kpt-set: ${workload-cluster-region}
   - name: attach_2nd_eni_lambda_s3_bucket
-    value: MULTUS_LAMBDA_S3_BUCKET # kpt-set: ${multus-lambda-s3-bucket}
+    value: multus-lambda-us-west-2-oregon-2024 # kpt-set: ${multus-lambda-s3-bucket}
   varsFrom:
   - kind: Secret
-    name: GITHUB_PAT_CREDENTIALS # kpt-set: ${github-pat-secret-name}
+    name: github-pat-credentials # kpt-set: ${github-pat-secret-name}
   writeOutputsToSecret:
     name: day0-infra-outputs
