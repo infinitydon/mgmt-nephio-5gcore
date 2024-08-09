@@ -1,0 +1,29 @@
+apiVersion: infra.contrib.fluxcd.io/v1alpha2
+kind: Terraform
+metadata: # kpt-merge: flux-system/day0-infra
+  name: day0-infra
+  namespace: flux-system
+  annotations:
+    internal.kpt.dev/upstream-identifier: 'infra.contrib.fluxcd.io|Terraform|flux-system|day0-infra'
+spec:
+  storeReadablePlan: human
+  interval: 1m
+  approvePlan: auto
+  destroyResourcesOnDeletion: true
+  path: ./tgw-vpc-subnet-nat-terraform
+  sourceRef:
+    kind: GitRepository
+    name: eks-infra-tf-repo
+    namespace: flux-system
+  vars:
+  - name: github_org
+    value: infinitydon # kpt-set: ${github-org}
+  - name: workload_cluster_region
+    value: us-west-2 # kpt-set: ${workload-cluster-region}
+  - name: attach_2nd_eni_lambda_s3_bucket
+    value: multus-lambda-us-west-2-oregon-2024 # kpt-set: ${multus-lambda-s3-bucket}
+  varsFrom:
+  - kind: Secret
+    name: github-pat-credentials # kpt-set: ${github-pat-secret-name}
+  writeOutputsToSecret:
+    name: day0-infra-outputs
