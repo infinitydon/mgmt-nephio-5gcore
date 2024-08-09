@@ -22,5 +22,61 @@ info:
   description: this package is used to deploy workload cluster via FluxCD TF controller
 pipeline:
   mutators:
+  - name: PackageVariant.ran-eks-cluster..0
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: AWS_REGION
+      put-value: us-west-2
+    selectors:
+    - kind: Terraform
+  - name: PackageVariant.ran-eks-cluster..1
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: EKS_CLUSTER_NAME
+      put-value: ran
+    selectors:
+    - kind: Terraform
+  - name: PackageVariant.ran-eks-cluster..2
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: EKS_VERSION
+      put-value: "1.29"
+    selectors:
+    - kind: Terraform
+  - name: PackageVariant.ran-eks-cluster..3
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: INSTANCE_TYPE
+      put-value: m5.4xlarge
+    selectors:
+    - kind: Terraform
+  - name: PackageVariant.ran-eks-cluster..4
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: PARAMETER_STORE_NAME
+      put-value: ran-5g
+    selectors:
+    - kind: Terraform
+  - name: PackageVariant.ran-eks-cluster..5
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: USE_UBUNTU_AMI
+      put-value: "true"
+    selectors:
+    - kind: Terraform
+  - name: PackageVariant.ran-eks-cluster..6
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: CREATE_EXTERNAL_DNS
+      put-value: "false"
+    selectors:
+    - kind: Terraform
+  - name: PackageVariant.ran-eks-cluster..7
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: EXT_DNS_NAME
+      put-value: nil
+    selectors:
+    - kind: Terraform
   - image: gcr.io/kpt-fn/apply-replacements:v0.1.1
     configPath: apply-replacements.yaml
