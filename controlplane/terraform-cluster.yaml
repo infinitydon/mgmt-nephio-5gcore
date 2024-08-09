@@ -1,0 +1,39 @@
+apiVersion: infra.contrib.fluxcd.io/v1alpha2
+kind: Terraform
+metadata: # kpt-merge: flux-system/example-cluster
+  name: controlplane-cluster
+  namespace: flux-system
+  annotations:
+    internal.kpt.dev/upstream-identifier: 'infra.contrib.fluxcd.io|Terraform|flux-system|example-cluster'
+spec:
+  interval: 1m
+  approvePlan: auto
+  destroyResourcesOnDeletion: true
+  storeReadablePlan: human
+  path: ./workload-eks-tf-module-github
+  runnerPodTemplate:
+    spec:
+      image: ghcr.io/infinitydon/fluxcd-tf-controller-awscli:v0.16.0-rc.4
+  sourceRef:
+    kind: GitRepository
+    name: eks-infra-tf-repo
+    namespace: flux-system
+  vars:
+  - name: region
+    value: us-west-2
+  - name: eks_cluster_name
+    value: ctrlplane
+  - name: eks_cluster_version
+    value: 1.29
+  - name: node_instance_type
+    value: m5.4xlarge
+  - name: parameter_store_name
+    value: control-plane-5g
+  - name: create_external_dns
+    value: true
+  - name: external_dns_domain_name
+    value: oai.internal
+  - name: use_ubuntu_ami
+    value: false
+  writeOutputsToSecret:
+    name: controlplane-outputs

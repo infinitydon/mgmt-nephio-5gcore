@@ -1,0 +1,82 @@
+apiVersion: kpt.dev/v1
+kind: Kptfile
+metadata: # kpt-merge: /controlplane
+  name: controlplane
+  annotations:
+    config.kubernetes.io/local-config: "true"
+    internal.kpt.dev/upstream-identifier: 'kpt.dev|Kptfile|default|controlplane'
+upstream:
+  type: git
+  git:
+    repo: https://github.com/infinitydon/nephio-aws-packages.git
+    directory: workload-cluster-package
+    ref: r3
+upstreamLock:
+  type: git
+  git:
+    repo: https://github.com/infinitydon/nephio-aws-packages.git
+    directory: workload-cluster-package
+    ref: r3
+    commit: 892ada0caae506a305d4152c8d4cbec77b46b901
+info:
+  description: this package is used to deploy workload cluster via FluxCD TF controller
+pipeline:
+  mutators:
+  - name: PackageVariant.controlplane-eks-cluster..0
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: AWS_REGION
+      put-value: us-west-2
+    selectors:
+    - kind: Terraform
+  - name: PackageVariant.controlplane-eks-cluster..1
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: EKS_CLUSTER_NAME
+      put-value: ctrlplane
+    selectors:
+    - kind: Terraform
+  - name: PackageVariant.controlplane-eks-cluster..2
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: EKS_VERSION
+      put-value: "1.29"
+    selectors:
+    - kind: Terraform
+  - name: PackageVariant.controlplane-eks-cluster..3
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: INSTANCE_TYPE
+      put-value: m5.4xlarge
+    selectors:
+    - kind: Terraform
+  - name: PackageVariant.controlplane-eks-cluster..4
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: PARAMETER_STORE_NAME
+      put-value: control-plane-5g
+    selectors:
+    - kind: Terraform
+  - name: PackageVariant.controlplane-eks-cluster..5
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: USE_UBUNTU_AMI
+      put-value: "false"
+    selectors:
+    - kind: Terraform
+  - name: PackageVariant.controlplane-eks-cluster..6
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: CREATE_EXTERNAL_DNS
+      put-value: "true"
+    selectors:
+    - kind: Terraform
+  - name: PackageVariant.controlplane-eks-cluster..7
+    image: gcr.io/kpt-fn/search-replace:v0.2.0
+    configMap:
+      by-value: EXT_DNS_NAME
+      put-value: oai.internal
+    selectors:
+    - kind: Terraform
+  - image: gcr.io/kpt-fn/apply-replacements:v0.1.1
+    configPath: apply-replacements.yaml
