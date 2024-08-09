@@ -20,20 +20,20 @@ spec:
     namespace: flux-system
   vars:
   - name: region
-    value: AWS_REGION
+    value: us-west-2
   - name: eks_cluster_name
-    value: EKS_CLUSTER_NAME
+    value: userplane
   - name: eks_cluster_version
-    value: EKS_VERSION
+    value: 1.29
   - name: node_instance_type
-    value: INSTANCE_TYPE
+    value: m5.4xlarge
   - name: parameter_store_name
-    value: PARAMETER_STORE_NAME
+    value: user-plane-5g
   - name: create_external_dns
-    value: CREATE_EXTERNAL_DNS
+    value: false
   - name: external_dns_domain_name
-    value: EXT_DNS_NAME
+    value: nil
   - name: use_ubuntu_ami
-    value: USE_UBUNTU_AMI
+    value: false
   writeOutputsToSecret:
     name: userplane-outputs
